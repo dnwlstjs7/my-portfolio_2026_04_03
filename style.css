@@ -1,0 +1,346 @@
+:root {
+  --bg: #111111;
+  --surface: #181818;
+  --text: #e8e8e6;
+  --muted: #505050;
+  --muted2: #888888;
+  --line: #242424;
+  --tag-bg: #1c1c1c;
+  --accent: #00FF66;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+}
+
+/* ── Custom cursor ── */
+.cursor {
+  position: fixed; width: 8px; height: 8px;
+  background: var(--accent); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.22s, height 0.22s;
+}
+.cursor-ring {
+  position: fixed; width: 30px; height: 30px;
+  border: 1px solid rgba(0, 255, 102, 0.4); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: left 0.1s ease-out, top 0.1s ease-out, width 0.22s, height 0.22s, background-color 0.2s ease;
+}
+
+/* ── Noise texture overlay ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+}
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 20px 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(17,17,17,0.85);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s;
+}
+nav.scrolled { border-color: var(--line); }
+.nav-logo {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text); text-decoration: none;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  font-size: 11px; font-weight: 500; color: var(--muted);
+  text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase;
+  transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 1px; background: var(--accent);
+  transition: width 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ── Sections ── */
+section {
+  padding: 80px 64px;
+  max-width: 920px; margin: 0 auto;
+  position: relative; z-index: 1;
+}
+
+/* ── Hero ── */
+#hero {
+  min-height: 60vh; /* Reduced from 80vh to bring Motto closer */
+  display: flex; flex-direction: column; justify-content: center;
+  padding-top: 80px; padding-bottom: 16px; /* Reduced bottom padding */
+}
+.hero-eyebrow {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 22px;
+}
+.hero-name-wrap { position: relative; display: inline-block; margin-bottom: 8px; }
+
+.hero-name {
+  font-size: clamp(56px, 9vw, 96px);
+  font-weight: 800; letter-spacing: -0.045em; line-height: 1.02;
+  color: var(--text);
+  display: inline-block;
+  cursor: default;
+  transition: transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28), color 0.2s;
+}
+
+/* ── Neon Hover Effect ── */
+.hero-name:hover {
+  transform: translateY(-5px) scale(1.02);
+  color: var(--accent);
+  text-shadow: 0 0 24px rgba(0, 255, 102, 0.4);
+}
+
+.hero-name-en {
+  font-size: clamp(12px, 1.5vw, 15px);
+  font-weight: 400; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 18px; /* Reduced from 32px */
+}
+.motto-block {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 10px 18px;
+  border: 1px solid var(--line); border-radius: 3px;
+  background: var(--surface);
+}
+.motto-label {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent);
+}
+.motto-text {
+  font-size: 13px; font-weight: 400;
+  color: var(--muted2); font-style: italic;
+}
+
+/* ── Divider ── */
+.divider {
+  width: 100%; height: 1px; background: var(--line);
+  max-width: 920px; margin: 0 auto; position: relative; z-index: 1;
+}
+
+/* ── Section label ── */
+.section-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 36px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--line);
+}
+
+/* ── About Info (Image + text) ── */
+.about-intro {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 48px;
+  align-items: center; /* Center horizontally with text */
+}
+.about-photo {
+  flex-shrink: 0;
+  width: 140px; height: 140px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--surface);
+  /* 테두리(보더) 완전 제거 */
+  border: none;
+}
+.about-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.about-text ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.about-text li {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text);
+  word-break: keep-all;
+  display: flex;
+  align-items: flex-start;
+}
+.about-text li strong {
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  width: 85px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* ── About Grid ── */
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 36px 64px;
+}
+.about-item-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 10px;
+}
+.estj-badge {
+  display: inline-block;
+  font-size: 20px; font-weight: 800;
+  letter-spacing: -0.02em; color: var(--text); margin-bottom: 8px;
+}
+.estj-desc {
+  font-size: 14px; font-weight: 400;
+  color: var(--muted2); line-height: 1.7; letter-spacing: 0;
+}
+
+/* ── Keywords ── */
+.keywords-wrap { margin-top: 0; }
+.keywords-wrap .about-item-label { margin-bottom: 14px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+  padding: 7px 15px;
+  background: var(--tag-bg); border: 1px solid var(--line);
+  border-radius: 2px; font-size: 13px; font-weight: 600;
+  color: var(--muted2); letter-spacing: -0.01em;
+  transition: background 0.22s, color 0.22s, border-color 0.22s;
+}
+.tag:hover { background: var(--accent); color: #111; border-color: var(--accent); }
+
+/* ── Goal ── */
+#goal .goal-card {
+  padding: 36px 40px;
+  border: 1px solid var(--line); border-radius: 4px;
+  background: var(--surface);
+  position: relative; overflow: hidden;
+  transition: box-shadow 0.4s;
+}
+#goal .goal-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%; background: var(--accent);
+}
+#goal .goal-card:hover { box-shadow: 0 0 48px rgba(0, 255, 102, 0.08); }
+.goal-year-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 14px;
+}
+.vision-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+.vision-list p {
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: flex-start;
+}
+.vision-list p strong {
+  flex-shrink: 0;
+  width: 130px;
+  color: var(--accent);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  margin-top: 3px;
+}
+
+/* ── Hobbies / Interests Lists ── */
+.hobbies-list { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 24px; 
+}
+.hobby-item {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  transition: border-color 0.3s;
+}
+.hobby-item:hover {
+  border-color: rgba(0, 255, 102, 0.4);
+}
+.hobby-icon { font-size: 20px; line-height: 1.6; flex-shrink: 0; }
+.hobby-name { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); margin-bottom: 6px;}
+.hobby-desc { font-size: 13px; color: var(--muted2); margin-top: 2px; }
+
+/* ── Footer ── */
+footer {
+  padding: 32px 64px; max-width: 920px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 1;
+}
+.footer-name { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.04em; }
+.footer-copy { font-size: 12px; color: var(--line); }
+
+/* ── Fade-up ── */
+.fade-up {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+              transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up.delay-1 { transition-delay: 0.07s; }
+.fade-up.delay-2 { transition-delay: 0.14s; }
+.fade-up.delay-3 { transition-delay: 0.21s; }
+.fade-up.delay-4 { transition-delay: 0.28s; }
+
+/* Hero initial animation */
+.hero-eyebrow { animation: fadeSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.08s both; }
+.hero-name-wrap { animation: fadeSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.20s both; }
+.hero-name-en { animation: fadeSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.30s both; }
+.motto-block  { animation: fadeSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.40s both; }
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 820px) {
+  .hobbies-list { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 680px) {
+  nav { padding: 16px 24px; }
+  section { padding: 56px 24px; }
+  footer { padding: 28px 24px; }
+  .about-intro { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .about-grid { grid-template-columns: 1fr; gap: 28px; }
+  
+  .hobbies-list { grid-template-columns: 1fr; gap: 16px; }
+  
+  .nav-links { display: none; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
